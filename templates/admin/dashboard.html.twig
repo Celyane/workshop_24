@@ -1,0 +1,19 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block title %}Tableau de Bord Admin{% endblock %}
+
+{% block body %}
+    <h1>Tableau de Bord Admin</h1>
+
+    <h2>Gestion des Utilisateurs</h2>
+    <a href="{{ path('user_index') }}">Voir tous les utilisateurs</a>
+    <a href="{{ path('user_new') }}">Ajouter un utilisateur</a>
+
+    <h2>Gestion des Posts</h2>
+    <a href="{{ path('article_index') }}">Voir tous les articles</a>
+    <a href="{{ path('article_new') }}">Ajouter un article</a>
+
+    <h2>Gestion des Posts</h2>
+    <a href="{{ path('article_index') }}">Voir tous les articles</a>
+    <a href="{{ path('article_new') }}">Ajouter un article</a>
+{% endblock %}

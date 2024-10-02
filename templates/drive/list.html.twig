@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des fichiers{% endblock %}
+
+{% block body %}
+    <h1>Liste des fichiers</h1>
+
+    <div style="margin-bottom: 20px;">
+        <a href="{{ path('app_file_upload') }}" class="btn btn-primary">Ajouter un document</a>
+    </div>
+
+    {% if files is empty %}
+        <p>Aucun fichier n'a été trouvé.</p>
+    {% else %}
+        <ul style="list-style-type: none; padding: 0;">
+            {% for file in files %}
+                <li style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    <strong>Nom du fichier :</strong> {{ file.name }} <br>
+                    <strong>Tag :</strong> {{ file.tag }} <br>
+                    <strong>Dernière modification :</strong> {{ file.lastModified|date('Y-m-d H:i:s') }} <br>
+                    
+                    <div style="margin-top: 10px;">
+                        <a href="{{ path('app_file_download', {'filename': file.name}) }}" class="btn btn-success">Télécharger</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

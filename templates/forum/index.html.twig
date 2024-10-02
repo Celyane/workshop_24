@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les Posts{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        background: linear-gradient(135deg, #ff6a88, #ffcc70, #fbc2eb);
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        margin: 0;
+        padding-top: 80px; /* Pour éviter que le contenu soit caché sous la navbar */
+    }
+
+    /* Barre de navigation */
+    .navbar {
+        background-color: rgba(30, 30, 30, 0.9);
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .navbar a {
+        color: #ffffff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 18px;
+        transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+        color: #ffcc70;
+    }
+
+    .navbar-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-right .btn {
+        background-color: #6200ea;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        color: #ffffff;
+        margin-left: 20px;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 16px;
+    }
+
+    .navbar-right .btn:hover {
+        background-color: #3700b3;
+        transform: scale(1.05);
+    }
+
+    .container {
+        width: 90%;
+        max-width: 800px;
+        padding: 40px;
+        background-color: rgba(30, 30, 30, 0.9);
+        border-radius: 15px;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+        margin: 0 auto;
+        margin-top: 100px;
+        animation: fadeIn 0.5s forwards;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        animation: slideIn 0.5s ease forwards;
+        opacity: 0;
+        animation-delay: 0.3s;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        background-color: #333333;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        cursor: pointer; /* Change cursor to pointer */
+    }
+
+    h2 {
+        margin: 0 0 10px;
+        font-size: 24px;
+    }
+
+    .details {
+        display: none; /* Masque les détails par défaut */
+        margin-top: 10px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<!-- Barre de navigation -->
+<nav class="navbar">
+    <div class="navbar-left">
+        <a href="{{ path('app_home_page') }}">Accueil</a>
+        <a href="{{ path('app_forum') }}">Forum</a>
+        <a href="{{ path('app_file_upload') }}">Drive</a>
+        <a href="{{ path('app_create_post') }}">Créer un Post</a>
+    </div>
+    <div class="navbar-right">
+        <a href="{{ path('app_register') }}" class="btn">Inscription</a>
+        <a href="{{ path('app_login') }}" class="btn">Connexion</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Tous les Posts</h1>
+
+    <ul>
+        {% for post in posts %}
+            <li>
+                <h2 onclick="toggleDetails(this)">{{ post.title }}</h2>
+                <div class="details">
+                    <p>{{ post.comment }}</p>
+                    <p>Likes: {{ post.nbLike }}</p>
+                    <p>Publié le: {{ post.createdAt|date('d-m-Y H:i') }}</p>
+                </div>
+            </li>
+        {% else %}
+            <p>Aucun post trouvé.</p>
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+    function toggleDetails(element) {
+        const details = element.nextElementSibling;
+        details.style.display = (details.style.display === "block") ? "none" : "block";
+    }
+</script>
+
+{% endblock %}

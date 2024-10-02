@@ -1,0 +1,257 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        background: linear-gradient(135deg, #ff6a88, #ffcc70, #fbc2eb);
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        margin: 0;
+        padding-top: 80px; /* Pour éviter que le contenu soit caché sous la navbar */
+    }
+
+    /* Barre de navigation */
+    .navbar {
+        background-color: rgba(30, 30, 30, 0.9);
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        position: fixed; /* Fixe la navbar en haut */
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000; /* S'assurer que la navbar est toujours au-dessus du contenu */
+    }
+
+    .navbar a {
+        color: #ffffff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 18px;
+        transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+        color: #ffcc70;
+    }
+
+    .navbar-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-right .btn {
+        background-color: #6200ea;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        color: #ffffff;
+        margin-left: 20px;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 16px;
+    }
+
+    .navbar-right .btn:hover {
+        background-color: #3700b3;
+        transform: scale(1.05);
+    }
+
+    .container {
+        width: 90%; /* Largeur responsive */
+        max-width: 500px; /* Largeur maximale */
+        padding: 40px; /* Padding pour l'espace intérieur */
+        background-color: rgba(30, 30, 30, 0.9); /* Légèrement transparent */
+        border-radius: 15px; /* Coins arrondis */
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+        margin: 0 auto; /* Centrer horizontalement la container */
+        margin-top: 100px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px; /* Espace entre le titre et le formulaire */
+        animation: slideIn 0.5s ease forwards; /* Animation de glissement */
+        opacity: 0; /* Commence invisible */
+        animation-delay: 0.3s; /* Délai avant l'animation */
+    }
+
+    .form-group {
+        margin-bottom: 15px; /* Espacement entre les champs */
+        opacity: 0; /* Commence invisible */
+        animation: fadeIn 0.5s forwards; /* Animation d'apparition */
+        animation-delay: 0.5s; /* Délai avant l'animation */
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px; /* Réduit le padding pour gagner de l'espace */
+        border: none;
+        border-radius: 5px;
+        background-color: #2a2a2a;
+        color: #ffffff;
+        transition: background-color 0.3s, transform 0.3s; /* Animation de couleur et transformation */
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        box-shadow: 0 0 5px #6200ea;
+        background-color: #333333;
+        transform: scale(1.02); /* Légère augmentation de taille */
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px; /* Padding du bouton */
+        border: none;
+        border-radius: 5px;
+        background-color: #6200ea;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 16px; /* Taille de la police du bouton */
+        margin-top: 20px; /* Espace entre le dernier champ et le bouton */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour le bouton */
+        opacity: 0; /* Commence invisible */
+        animation: fadeIn 0.5s forwards; /* Animation d'apparition */
+        animation-delay: 0.7s; /* Délai avant l'animation */
+    }
+
+    .btn:hover {
+        background-color: #3700b3;
+        transform: scale(1.05); /* Effet de zoom au survol */
+    }
+
+    .error {
+        background-color: #d32f2f;
+        color: #ffffff;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-align: center; /* Centrage du texte d'erreur */
+        animation: shake 0.5s forwards; /* Animation de secousse */
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px); /* Déplace vers le bas */
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0); /* Retourne à la position d'origine */
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px); /* Déplace vers le haut */
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0); /* Retourne à la position d'origine */
+        }
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+    }
+
+    /* Media Queries pour les écrans plus petits */
+    @media (max-width: 768px) {
+        .container {
+            padding: 20px; /* Réduire le padding pour les écrans plus petits */
+        }
+        
+        h1 {
+            font-size: 24px; /* Ajuster la taille du titre */
+        }
+
+        .btn {
+            font-size: 14px; /* Ajuster la taille du bouton */
+        }
+    }
+</style>
+
+<!-- Barre de navigation -->
+<nav class="navbar">
+    <div class="navbar-left">
+        <a href="{{ path('app_home_page') }}">Accueil</a>
+        <a href="{{ path('app_forum') }}">Forum</a>
+        <a href="{{ path('app_file_upload') }}">Drive</a>
+        <a href="{{ path('app_create_post') }}">Créer un Post</a>
+    </div>
+    <div class="navbar-right">
+        <a href="{{ path('app_register') }}" class="btn">Inscription</a>
+        <a href="{{ path('app_login') }}" class="btn">Connexion</a>
+    </div>
+</nav>
+
+<div class="container">
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="error" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <h1>Register</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+    <div class="form-group">
+        {{ form_row(registrationForm.name) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(registrationForm.lastname) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(registrationForm.nickname) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(registrationForm.birthdate) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(registrationForm.email, { 'attr': { 'placeholder': 'Votre email', 'value': registrationForm.name.vars.value ~ registrationForm.lastname.vars.value ~ '@ecoles-epsi.net' } }) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(registrationForm.plainPassword, { label: 'Password' }) }}
+    </div>
+
+    <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+</div>
+
+<script>
+    document.querySelector('.btn').addEventListener('click', function(event) {
+        event.preventDefault(); // Empêche la soumission pour afficher la popup
+        const form = document.querySelector('form'); // Change pour sélectionner le <form> directement
+        const message = document.createElement('div');
+        message.style.position = 'fixed';
+        message.style.top = '50%';
+        message.style.left = '50%';
+        message.style.transform = 'translate(-50%, -50%)';
+        message.style.padding = '20px';
+        message.style.backgroundColor = '#6200ea';
+        message.style.color = '#ffffff';
+        message.style.borderRadius = '10px';
+        message.style.boxShadow = '0 8px 40px rgba(0, 0, 0, 0.5)';
+        message.style.zIndex = '2000';
+        message.textContent = 'Enregistrement en cours...';
+
+        document.body.appendChild(message);
+        
+        setTimeout(() => {
+            form.submit(); // Soumettre après un petit délai
+        }, 2000);
+    });
+</script>
+{% endblock %}
